@@ -1,0 +1,47 @@
+<script src="shri-async-hw.js"></script>
+
+<script>
+    const {
+        AsyncArray,
+        add,
+        divide
+    } = Homework;
+
+    const promisify = (f, ...args) => new Promise((resolve, reject) => {
+        if(args){
+            f(...args, (result) => { 
+                resolve(result) ;
+            });
+        }else{
+            f((result) => { 
+                resolve(result) ;
+            });
+        }
+    });
+
+    const summ = async (array) => {
+        let sum = 0;
+        let num = 0;
+        
+        while(num = await promisify(array.pop))
+        {
+            sum = await promisify(add, sum, num);
+        }
+
+        return sum
+    };
+
+    async function average (array, cb) {
+        if (array && !(array instanceof AsyncArray)) {
+            throw new Error('array is not an AsyncArray');
+        }
+
+        const length = await promisify(array.length);
+        const sum = await summ(array);
+
+        cb(await promisify(divide, sum, length));
+    }
+
+    const globalSpace = typeof module !== 'undefined' && typeof module.exports !== 'undefined' ? global : window;
+    globalSpace.average = average;
+</script>
